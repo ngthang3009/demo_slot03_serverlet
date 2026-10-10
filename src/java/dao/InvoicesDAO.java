@@ -124,7 +124,7 @@ public class InvoicesDAO {
         } catch (SQLException e) {
           
        
-    
+        return result;
     }
     
     
