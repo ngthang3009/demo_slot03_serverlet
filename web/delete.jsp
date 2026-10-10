@@ -1,0 +1,51 @@
+<%-- 
+    Document   : delete
+    Created on : Oct 9, 2026, 4:33:06 AM
+    Author     : ADMIN
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Delete Invoice</title>
+        <style>
+            .box {
+                width: 500px;
+                margin-bottom: 15px;
+            }
+            label {
+                display: inline-block;
+                width: 120px;
+            }
+            .a, .btn-cancel {
+                text-decoration: none;
+                color: #333333;
+                padding: 3px 8px;
+                border: 1px solid #767676;
+                border-radius: 3px;
+                background-color: #efefef;
+                font-size: 13px;
+            }
+            span {
+                color: #ff3333;
+            }
+        </style>
+    </head>
+    <body>
+        <form action="Maincontroller" method="post">
+            <h2 class="infor">Delete Invoice</h2>
+
+            <div class="box">
+                <label>Invoice ID</label>
+                <input type="text" name="invId" required="true" />
+            </div>
+
+            <div class="box">
+                <input type="submit" name="action" value="SaveDelete" class="marginleft" />
+                <a href="Maincontroller?action=Cancel" class="btn-cancel">Cancel</a>
+            </div>
+        </form>
+    </body>
+</html>
