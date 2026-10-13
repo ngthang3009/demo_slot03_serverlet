@@ -44,7 +44,7 @@ public class UpdateController extends HttpServlet {
            ArrayList<InvoicesDTO> listinv = (ArrayList<InvoicesDTO>)session.getAttribute("LIST");
            for (InvoicesDTO x: listinv){
                if (x.getInvID().equalsIgnoreCase(invInvoice)){
-                    session.setAttribute("INVOICEUPDATE", x);
+                    session.setAttribute("INVOICENEEDUPDATE", x);
                }
            }
            response.sendRedirect("update.jsp");

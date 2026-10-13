@@ -53,7 +53,7 @@
             </div>
 
             <div class="box">
-                <input type="submit" name="action" value="SaveUpdate" class="marginleft" />
+                <input type="submit" name="action" value="Save" class="marginleft" />
                 <a href="Maincontroller?action=Cancel" class="btn-cancel">Cancel</a>
             </div>
         </form>

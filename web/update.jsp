@@ -36,7 +36,7 @@
     </head>
     <body>
         <% 
-         InvoicesDTO invoiceUpdate =(InvoicesDTO)session.getAttribute("INVOICEUPDATE"); 
+         InvoicesDTO invoiceUpdate =(InvoicesDTO)session.getAttribute("INVOICENEEDUPDATE"); 
         %>
         
         <form action="Maincontroller" method="post">
@@ -44,7 +44,7 @@
 
             <div class="box">
                 <label>Invoice ID</label>
-                <input type="text" name="invId" required="true" value="<%=invoiceUpdate.getInvDate() %>" />
+                <input type="text" name="invId" required="true" value="<%= invoiceUpdate.getInvID() %>" readonly />
             </div>
 
             <div class="box">

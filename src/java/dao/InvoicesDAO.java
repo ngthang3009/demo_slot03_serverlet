@@ -36,17 +36,23 @@ public class InvoicesDAO {
             conn = util.getConnection();
             p = conn.prepareStatement("select * from tblInvoices where userID = ? and customer like ?");
             p.setString(1, userId);
-            p.setString(2, "%"+name+"%");
+            p.setString(2, "%" + name + "%");
             rs = p.executeQuery();
-            
+
             while (rs.next()) {
                 invID = rs.getString("invID");
                 invDate = rs.getString("invDate");
                 customer = rs.getString("customer");
                 userID = rs.getString("userID");
                 invoices = new InvoicesDTO(invID, invDate, customer, userID);
-                
+
                 list.add(invoices);
+            }
+            if (conn != null) {
+                conn.close();
+            }
+            if (p != null) {
+                p.close();
             }
         } catch (SQLException e) {
             System.out.println("Error connection");
@@ -55,25 +61,22 @@ public class InvoicesDAO {
         }
         return list;
     }
-    
-    
-    
-    
-     public int AddNewInvoice(InvoicesDTO newInv) {
+
+    public int AddNewInvoice(InvoicesDTO newInv) {
         Connection conn = null;
         PreparedStatement p = null;
-        
+
         int result = -1;
 
         try {
             conn = util.getConnection();
-            p = conn.prepareStatement("Insert tblInvoices values(?,?,?,?)");
+            p = conn.prepareStatement("INSERT INTO tblInvoices (invID, invDate, customer, userID) VALUES (?,?,?,?)");
             p.setString(1, newInv.getInvID());
             p.setString(2, newInv.getInvDate());
             p.setString(3, newInv.getCustomer());
             p.setString(4, newInv.getUserID());
             result = p.executeUpdate();
- 
+
         } catch (SQLException e) {
             System.out.println("Error connection");
         } catch (ClassNotFoundException e) {
@@ -81,13 +84,11 @@ public class InvoicesDAO {
         }
         return result;
     }
-     
-     
-       
-     public int DeleteInvoice(String invID) {
+
+    public int DeleteInvoice(String invID) {
         Connection conn = null;
         PreparedStatement p = null;
-        
+
         int result = -1;
 
         try {
@@ -95,7 +96,13 @@ public class InvoicesDAO {
             p = conn.prepareStatement("Delete from tblInvoices where invID=? ");
             p.setString(1, invID);
             result = p.executeUpdate();
- 
+            if (conn != null) {
+                conn.close();
+            }
+            if (p != null) {
+                p.close();
+            }
+
         } catch (SQLException e) {
             System.out.println("Error connection");
         } catch (ClassNotFoundException e) {
@@ -103,31 +110,35 @@ public class InvoicesDAO {
         }
         return result;
     }
-     
-     
-     
-       public int UpdateInvoice(InvoicesDTO invoiceUpdate) {
+
+    public int UpdateInvoice(InvoicesDTO invoiceUpdate) {
         Connection conn = null;
         PreparedStatement p = null;
-        
+
         int result = -1;
 
         try {
             conn = util.getConnection();
-            p = conn.prepareStatement("update tblInvoices set invID=?, invDate=?,customer=? where invID=?  ");
-       // hello
-            p.setString(1, InvDate);
-            p.setString(2, Customer);
-            p.setString(3, InvID);
+            p = conn.prepareStatement("update tblInvoices set invDate=?,customer=? where invID=?  ");
+            // hello
+            p.setString(1, invoiceUpdate.getInvDate());
+            p.setString(2, invoiceUpdate.getCustomer());
+            p.setString(3, invoiceUpdate.getInvID());
             result = p.executeUpdate();
- 
+            if (conn != null) {
+                conn.close();
+            }
+            if (p != null) {
+                p.close();
+            }
+
         } catch (SQLException e) {
-          
-       
+            System.out.println("Error connection");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Error connection");
+        }
+
         return result;
     }
-    
-    
-    
-    
+
 }

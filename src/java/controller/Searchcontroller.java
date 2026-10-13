@@ -51,7 +51,7 @@ public class Searchcontroller extends HttpServlet {
             if (!list.isEmpty()) {
                 session.setAttribute("LIST", list);
             } else {
-                session.setAttribute("LIST", " ");
+                session.setAttribute("LIST", null);
             }
             RequestDispatcher rd = request.getRequestDispatcher("search.jsp");
             rd.forward(request, response);

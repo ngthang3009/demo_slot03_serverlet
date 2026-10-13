@@ -38,18 +38,18 @@ public class SaveUpdateController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-           HttpSession session = request.getSession();
-            
+            HttpSession session = request.getSession();
+
             String invId = request.getParameter("invId");
             String invDate = request.getParameter("invDate");
             String customer = request.getParameter("customer");
             UserDTO user = (UserDTO) session.getAttribute("USER");
             String UserId = user.getUser_ID();
-            
+
             InvoicesDTO new_invoices = new InvoicesDTO(invId, invDate, customer, UserId);
             InvoicesDAO new_data = new InvoicesDAO();
-           
-            if (new_data.AddNewInvoice(new_invoices) >= 0){
+
+            if (new_data.UpdateInvoice(new_invoices) >= 0) {
                 List<InvoicesDTO> list = new_data.getListInvoices(UserId, "");
                 session.setAttribute("LIST", list);
                 response.sendRedirect("search.jsp");

@@ -23,7 +23,7 @@
         </h1>
         <div>
             <%
-                String customername = (String) session.getAttribute("CUSTOMERNAME");
+                String customername = (String)session.getAttribute("CUSTOMERNAME");
                 if (customername == null) {
                     customername = "";
                 }
@@ -50,10 +50,9 @@
                 <th colspan="2">Choice</th>
             </tr>
             <%
-                List<InvoicesDTO> list = (List<InvoicesDTO>) session.getAttribute("LIST");
+                List<InvoicesDTO> list = (List<InvoicesDTO>)session.getAttribute("LIST");
                 if (list != null) {
                     for (InvoicesDTO i : list) {
-
             %>
             <tr>
                 <td>
@@ -72,7 +71,7 @@
                     <a href="Maincontroller?action=delete">Delete</a>
                 </td>
                 <td>
-                    <a href="Maincontroller?action=update&InvID= <%= i.getInvID()%>">Update</a>
+                    <a href="Maincontroller?action=update&InvID=<%=i.getInvID()%>">Update</a>
                 </td>
                 
             </tr>

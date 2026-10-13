@@ -44,7 +44,7 @@ public class Maincontroller extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("AddInvoice.jsp");
                 rd.forward(request, response);
             } else if ("Save".equals(action)) {
-                if("checksave".equals(checksave)){
+                if("saveupdate".equals(checksave)){
                 RequestDispatcher rd = request.getRequestDispatcher("SaveUpdateController");
                 rd.forward(request, response);
                 }
