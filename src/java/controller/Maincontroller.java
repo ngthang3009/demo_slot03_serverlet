@@ -53,13 +53,13 @@ public class Maincontroller extends HttpServlet {
                 rd.forward(request, response);
                 }
             } else if ("delete".equals(action)) {
-                RequestDispatcher rd = request.getRequestDispatcher("delete.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("DeleteController");
                 rd.forward(request, response);
-            } else if ("SaveDelete".equals(action)) {
-                RequestDispatcher rd = request.getRequestDispatcher("SaveDelete");
-                rd.forward(request, response);
-            } else if ("update".equals(action)){
+            }  else if ("update".equals(action)){
                 RequestDispatcher rd = request.getRequestDispatcher("UpdateController");
+                rd.forward(request, response);
+            } else if ("logout".equals(action)){
+                RequestDispatcher rd = request.getRequestDispatcher("LogoutController");
                 rd.forward(request, response);
             }
 

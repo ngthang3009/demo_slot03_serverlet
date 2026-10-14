@@ -68,7 +68,7 @@
                     <%= i.getUserID()%>
                 </td>
                 <td>
-                    <a href="Maincontroller?action=delete">Delete</a>
+                    <a href="Maincontroller?action=delete&InvID=<%=i.getInvID()%>">Delete</a>
                 </td>
                 <td>
                     <a href="Maincontroller?action=update&InvID=<%=i.getInvID()%>">Update</a>
@@ -85,7 +85,11 @@
         %>
         <p> <%= loi%></p>
         <% }%>
-
+        
+        <p>
+            <a href="Maincontroller?action=logout">Logout</a>
+        </p>
+        
 
 
 

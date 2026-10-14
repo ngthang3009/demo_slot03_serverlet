@@ -21,8 +21,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author ADMIN
  */
-@WebServlet(name = "SaveDelete", urlPatterns = {"/SaveDelete"})
-public class SaveDelete extends HttpServlet {
+@WebServlet(name = "DeleteController", urlPatterns = {"/DeleteController"})
+public class DeleteController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,26 +38,19 @@ public class SaveDelete extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-              HttpSession session = request.getSession();
-              UserDTO user = (UserDTO)session.getAttribute("USER");
-              InvoicesDAO delete = new InvoicesDAO();
-              List<InvoicesDTO> list = delete.getListInvoices(user.getUser_ID(), "");
-              String id = request.getParameter("invId");
-              boolean check = false;
-              for(InvoicesDTO i: list){
-                  if (i.getInvID().equals(id)){
-                      check = true;
-                  }
-              }
-              
-             if (check==true){
-                 if (delete.DeleteInvoice(id) >= 0){
-                List<InvoicesDTO> LIST = delete.getListInvoices(user.getUser_ID(), "");
-                session.setAttribute("LIST", LIST);
+           HttpSession session = request.getSession();
+           
+           UserDTO user = (UserDTO) session.getAttribute("USER");
+           String UserId = user.getUser_ID();
+           
+           
+           String id = request.getParameter("InvID");
+           InvoicesDAO dao = new InvoicesDAO();
+           if (dao.DeleteInvoice(id) >= 0){
+                List<InvoicesDTO> list = dao.getListInvoices(UserId, "");
+                session.setAttribute("LIST", list);
                 response.sendRedirect("search.jsp");
-                 }
-             }
-              
+           }
         }
     }
 
