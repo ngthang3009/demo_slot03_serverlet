@@ -42,6 +42,7 @@ public class UpdateController extends HttpServlet {
           
            HttpSession session = request.getSession();
            ArrayList<InvoicesDTO> listinv = (ArrayList<InvoicesDTO>)session.getAttribute("LIST");
+           
            for (InvoicesDTO x: listinv){
                if (x.getInvID().equalsIgnoreCase(invInvoice)){
                     session.setAttribute("INVOICENEEDUPDATE", x);

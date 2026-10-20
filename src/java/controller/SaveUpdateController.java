@@ -5,10 +5,14 @@
 package controller;
 
 import dao.InvoicesDAO;
+import dto.InvoiceError;
 import dto.InvoicesDTO;
 import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,15 +49,42 @@ public class SaveUpdateController extends HttpServlet {
             String customer = request.getParameter("customer");
             UserDTO user = (UserDTO) session.getAttribute("USER");
             String UserId = user.getUser_ID();
+            SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+            fm.setLenient(true);
 
-            InvoicesDTO new_invoices = new InvoicesDTO(invId, invDate, customer, UserId);
-            InvoicesDAO new_data = new InvoicesDAO();
+            InvoicesDAO check_dao = new InvoicesDAO();
+            InvoiceError invErr = new InvoiceError();
+            InvoicesDTO new_invoices;
+            boolean check = true;
 
-            if (new_data.UpdateInvoice(new_invoices) >= 0) {
-                List<InvoicesDTO> list = new_data.getListInvoices(UserId, "");
-                session.setAttribute("LIST", list);
-                response.sendRedirect("search.jsp");
+            if (customer.length() < 2 || customer.length() > 30) {
+                invErr.setCustomerError("Invalid customer name");
+                check = false;
             }
+            try {
+                Date date = fm.parse(invDate);
+            } catch (ParseException e) {
+                invErr.setInvDateError("Invalid Date");
+                check = false;
+            }
+            
+            if (check == true) {
+                new_invoices = new InvoicesDTO(invId, invDate, customer, UserId);
+                if (check_dao.UpdateInvoice(new_invoices) >= 0) {
+                    List<InvoicesDTO> list = check_dao.getListInvoices(UserId, "");
+                    session.setAttribute("LIST", list);
+                    response.sendRedirect("search.jsp");
+                }
+                else{
+                    session.setAttribute("ERRORUPDATE", "update database error");
+                    response.sendRedirect("update.jsp");
+                }
+            }
+            else{
+                session.setAttribute("INVOICEUPDATEERROR", invErr);
+                response.sendRedirect("update.jsp");
+            }
+
         }
     }
 

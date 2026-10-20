@@ -5,11 +5,15 @@
 package controller;
 
 import dao.InvoicesDAO;
+import dto.InvoiceError;
 import dto.InvoicesDTO;
 import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,21 +43,55 @@ public class SaveAddNew extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             
-             HttpSession session = request.getSession();
+            HttpSession session = request.getSession();
             
             String invId = request.getParameter("invId");
             String invDate = request.getParameter("invDate");
             String customer = request.getParameter("customer");
+            
             UserDTO user = (UserDTO) session.getAttribute("USER");
             String UserId = user.getUser_ID();
+            InvoicesDAO dao = new InvoicesDAO();
+            InvoiceError invErr = new InvoiceError();
+            boolean check = true;
+
+            //check id validation
+            if (!invId.matches("^I\\d{5}$")) {
+                invErr.setInvIdError("invalid ID");
+                check = false;
+            } else if (dao.checkDuplicate(invId) == true) {
+                invErr.setInvIdError("Id duplicated");
+                check = false;
+            }
+            //check date format
+            SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+            fm.setLenient(false);
+            // Lay nhung ngay co that trong thuc te
+            try {
+                Date date = fm.parse(invDate);
+            } catch (ParseException e) {
+                invErr.setInvDateError("Invalid date");
+                check = false;                
+            }
             
-            InvoicesDTO new_invoices = new InvoicesDTO(invId, invDate, customer, UserId);
-            InvoicesDAO new_data = new InvoicesDAO();
-           
-            if (new_data.AddNewInvoice(new_invoices) >= 0){
-                List<InvoicesDTO> list = new_data.getListInvoices(UserId, "");
-                session.setAttribute("LIST", list);
-                response.sendRedirect("search.jsp");
+            if (customer.length() < 2 || customer.length() > 30) {
+                invErr.setCustomerError("Error customer");
+                check = false;
+            }
+            
+            if (check == true) {
+                
+                InvoicesDTO new_dto = new InvoicesDTO(invId, invDate, customer, UserId);
+                
+                if (dao.AddNewInvoice(new_dto) >= 0) {
+                    List<InvoicesDTO> list = dao.getListInvoices(UserId, "");
+                    session.setAttribute("LIST", list);
+                    response.sendRedirect("search.jsp");
+                }
+                
+            } else {
+                session.setAttribute("INVOICEERROR", invErr);
+                response.sendRedirect("AddInvoice.jsp");
             }
         }
     }

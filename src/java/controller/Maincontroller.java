@@ -61,6 +61,9 @@ public class Maincontroller extends HttpServlet {
             } else if ("logout".equals(action)){
                 RequestDispatcher rd = request.getRequestDispatcher("LogoutController");
                 rd.forward(request, response);
+            } else if ("Cancel".equals(action)){
+                RequestDispatcher rd = request.getRequestDispatcher("search.jsp");
+                rd.forward(request, response);
             }
 
         }

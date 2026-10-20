@@ -37,10 +37,6 @@
         <p>
             <a href="Maincontroller?action=AddNew">AddNew</a>
         </p>      
-    
-       
-        
-
         <table border = "1">
             <tr>
                 <th>InvID</th>

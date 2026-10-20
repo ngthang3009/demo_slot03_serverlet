@@ -4,12 +4,13 @@
     Author     : Huynh Ngoc Thang
 --%>
 
+<%@page import="dto.InvoiceError"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Update Invoice</title>
+        <title>Add Invoice</title>
         <style>
             .box {
                 width: 500px;
@@ -34,22 +35,42 @@
         </style>
     </head>
     <body>
+        <%
+            InvoiceError error = (InvoiceError) session.getAttribute("INVOICEERROR");
+            String invIderror = "";
+            String invDateError = "";
+            String invCustomer = "";
+            if (error != null) {
+                 invIderror = error.getInvIdError();
+                 invDateError = error.getInvDateError();
+                 invCustomer = error.getCustomerError();
+            } else {
+                invIderror = "";
+                invDateError = "";
+                invCustomer = "";
+            }
+
+        %>
         <form action="Maincontroller" method="post">
             <h2 class="infor">Add New Invoice information</h2>
 
             <div class="box">
                 <label>Invoice ID</label>
                 <input type="text" name="invId" required="true" />
+                <span style="color: red"><%=invIderror%> </span>
+              
             </div>
 
             <div class="box">
                 <label>Invoice Date</label>
-                <input type="date" name="invDate" required="true" />
+                <input type="text" name="invDate" required="true" />
+                  <span style="color: red"><%=invDateError%> </span>
             </div>
 
             <div class="box">
                 <label>Customer</label>
                 <input type="text" name="customer" required="true" />
+                 <span style="color: red"><%=invCustomer%> </span>
             </div>
 
             <div class="box">
@@ -57,5 +78,7 @@
                 <a href="Maincontroller?action=Cancel" class="btn-cancel">Cancel</a>
             </div>
         </form>
+
+
     </body>
 </html>
